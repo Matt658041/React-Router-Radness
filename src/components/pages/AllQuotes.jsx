@@ -2,7 +2,7 @@ import React from 'react'
 
 const AllQuotes = () => {
   return (
-    <div>AllQuotes</div>
+    <h1>All Quotes Page</h1>
   )
 }
 

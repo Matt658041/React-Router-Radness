@@ -1,7 +1,7 @@
-import React, { Fragment } from 'react'
-import { Route, useParams } from 'react-router-dom'
-import Comments from '../comments/Comments';
-import HighlightedQuote from '../quotes/HighlightedQuote';
+import React, { Fragment } from "react";
+import { Link, Route, useParams, useRouteMatch } from "react-router-dom";
+import Comments from "../comments/Comments";
+import HighlightedQuote from "../quotes/HighlightedQuote";
 
 const DUMMY_QUOTES = [
   { id: "q1", author: "Max", text: "learning react is fun" },
@@ -9,22 +9,33 @@ const DUMMY_QUOTES = [
 ];
 
 const QuoteDetail = () => {
-  const params = useParams()
 
-  const quote = DUMMY_QUOTES.find(quote => quote.id === params.quoteId);
+  const match = useRouteMatch();
+  const params = useParams();
+
+
+
+  const quote = DUMMY_QUOTES.find((quote) => quote.id === params.quoteId);
 
   if (!quote) {
-    return <p>No quote found!</p>
+    return <p>No quote found!</p>;
   }
 
   return (
     <Fragment>
-      <HighlightedQuote text={quote.text} author={quote.author } />
-      <Route path={`/quotes/${params.quoteId}/comments`}>
-        <Comments/>
+      <HighlightedQuote text={quote.text} author={quote.author} />
+      <Route path={match.path} exact>
+        <div className="centered">
+          <Link className="btn--flat" to={`${match.url}/comments`}>
+            Load Comments
+          </Link>
+        </div>
+      </Route>
+      <Route path={`${match.path}/comments`}>
+        <Comments />
       </Route>
     </Fragment>
   );
 };
 
-export default QuoteDetail
+export default QuoteDetail;
